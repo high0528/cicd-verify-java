@@ -1,3 +1,4 @@
+// Re-trigger #2 - 20260517_151942
 // Auto-trigger rebuild - k8s-agent-java template added
 pipeline {
     agent { label 'k8s-agent-java' }
