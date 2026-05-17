@@ -1,3 +1,4 @@
+// Auto-trigger rebuild - k8s-agent-java template added
 pipeline {
     agent { label 'k8s-agent-java' }
 
@@ -31,10 +32,10 @@ pipeline {
 
     post {
         success {
-            sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d '{\"job_name\":\"${env.JOB_NAME}\",\"build_number\":${env.BUILD_NUMBER},\"status\":\"SUCCESS\",\"branch\":\"${env.BRANCH_NAME ?: 'main'}\"}' || true"
+            sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d '{\\\"job_name\\\":\\\"${env.JOB_NAME}\\\",\\\"build_number\\\":${env.BUILD_NUMBER},\\\"status\\\":\\\"SUCCESS\\\",\\\"branch\\\":\\\"${env.BRANCH_NAME ?: 'main'}\\\"}' || true"
         }
         failure {
-            sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d '{\"job_name\":\"${env.JOB_NAME}\",\"build_number\":${env.BUILD_NUMBER},\"status\":\"FAILURE\",\"branch\":\"${env.BRANCH_NAME ?: 'main'}\"}' || true"
+            sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d '{\\\"job_name\\\":\\\"${env.JOB_NAME}\\\",\\\"build_number\\\":${env.BUILD_NUMBER},\\\"status\\\":\\\"FAILURE\\\",\\\"branch\\\":\\\"${env.BRANCH_NAME ?: 'main'}\\\"}' || true"
         }
     }
 }
