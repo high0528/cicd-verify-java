@@ -13,6 +13,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Clean workspace before checkout
+                cleanWs()
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[url: 'https://github.com/high0528/cicd-verify-java.git']],
