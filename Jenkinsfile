@@ -13,13 +13,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clean workspace before checkout
-                cleanWs()
+                // 配置 Git 镜像代理，解决 K8s Pod 访问 GitHub 不稳定的问题
+                sh 'git config --global url."https://ghfast.top/github.com/".insteadOf https://github.com/'
+                sh 'git config --global url."https://ghfast.top/git@github.com:".insteadOf git@github.com:'
+                
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[url: 'https://github.com/high0528/cicd-verify-java.git']],
                     extensions: [
-                        [$class: 'CloneOption', timeout: 5, noTags: false, shallow: true, depth: 1]
+                        [$class: 'CloneOption', timeout: 2, noTags: false, shallow: true, depth: 1]
                     ]
                 ])
             }
