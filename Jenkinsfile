@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             options {
-                timeout(time: 2, unit: 'MINUTES')
+                timeout(time: 3, unit: 'MINUTES')
             }
             steps {
                 retry(2) {
@@ -20,7 +20,7 @@ pipeline {
                         branches: [[name: '*/main']],
                         userRemoteConfigs: [[url: 'https://github.com/high0528/cicd-verify-java.git']],
                         extensions: [
-                            [$class: 'CloneOption', timeout: 1, noTags: false, shallow: true, depth: 1]
+                            [$class: 'CloneOption', timeout: 3, noTags: false, shallow: true, depth: 1]
                         ]
                     ])
                 }
