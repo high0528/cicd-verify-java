@@ -27,11 +27,6 @@
             <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.nonexistent</groupId>
-            <artifactId>fake-library</artifactId>
-            <version>999.999.999</version>
-        </dependency>
     </dependencies>
 
     <build>
