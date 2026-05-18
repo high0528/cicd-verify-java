@@ -9,6 +9,6 @@ public class OrderController {
     @GetMapping("/test")
     public String testEndpoint() {
         String message = "Hello from fixed build";
-        return message;
+        return message
     }
 }
