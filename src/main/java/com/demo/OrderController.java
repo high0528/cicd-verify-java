@@ -8,7 +8,8 @@ public class OrderController {
 
     @GetMapping("/test")
     public String testEndpoint() {
-        NonExistentService service = new NonExistentService();
-        return service.process();
+        // [Push Simulation] Triggering build pipeline
+        String message = "Simulation Build Success";
+        return message;
     }
 }
