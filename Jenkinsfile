@@ -15,12 +15,9 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'git@github.com:high0528/cicd-verify-java.git',
-                        credentialsId: 'github-ssh-key'
-                    ]],
+                    userRemoteConfigs: [[url: 'https://github.com/high0528/cicd-verify-java.git']],
                     extensions: [
-                        [$class: 'CloneOption', timeout: 3, noTags: false, shallow: true, depth: 1]
+                        [$class: 'CloneOption', timeout: 5, noTags: false, shallow: true, depth: 1]
                     ]
                 ])
             }
