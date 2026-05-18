@@ -8,7 +8,7 @@ public class OrderController {
 
     @GetMapping("/test")
     public String testEndpoint() {
-        String message = "Hello from broken build"
+        String message = "Hello from fixed build";
         return message;
     }
 }
