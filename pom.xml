@@ -31,6 +31,12 @@
             <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Intentionally broken dependency for testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>999.999.999</version>
+        </dependency>
     </dependencies>
 
     <build>
