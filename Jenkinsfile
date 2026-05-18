@@ -8,7 +8,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/high0528/cicd-verify-java.git'
+                retry(3) {
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[url: 'https://github.com/high0528/cicd-verify-java.git']],
+                        extensions: [
+                            [$class: 'CloneOption', timeout: 10, noTags: false, shallow: true, depth: 1]
+                        ]
+                    ])
+                }
             }
         }
 
@@ -31,10 +39,16 @@ pipeline {
 
     post {
         success {
-            sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d '{\\\"job_name\\\":\\\"${env.JOB_NAME}\\\",\\\"build_number\\\":${env.BUILD_NUMBER},\\\"status\\\":\\\"SUCCESS\\\",\\\"branch\\\":\\\"${env.BRANCH_NAME ?: 'main'}\\\"}' || true"
+            script {
+                def payload = '{"job_name":"' + env.JOB_NAME + '","build_number":' + env.BUILD_NUMBER + ',"status":"SUCCESS","branch":"' + (env.BRANCH_NAME ?: 'main') + '"}'
+                sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d \"${payload}\" || true"
+            }
         }
         failure {
-            sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d '{\\\"job_name\\\":\\\"${env.JOB_NAME}\\\",\\\"build_number\\\":${env.BUILD_NUMBER},\\\"status\\\":\\\"FAILURE\\\",\\\"branch\\\":\\\"${env.BRANCH_NAME ?: 'main'}\\\"}' || true"
+            script {
+                def payload = '{"job_name":"' + env.JOB_NAME + '","build_number":' + env.BUILD_NUMBER + ',"status":"FAILURE","branch":"' + (env.BRANCH_NAME ?: 'main') + '"}'
+                sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d \"${payload}\" || true"
+            }
         }
     }
 }
