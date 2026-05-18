@@ -17,7 +17,7 @@ pipeline {
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
                         url: 'git@github.com:high0528/cicd-verify-java.git',
-                        credentialsId: 'github-ssh'
+                        credentialsId: 'github-ssh-key'
                     ]],
                     extensions: [
                         [$class: 'CloneOption', timeout: 3, noTags: false, shallow: true, depth: 1]
