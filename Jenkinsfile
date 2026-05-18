@@ -41,13 +41,15 @@ pipeline {
         success {
             script {
                 def payload = '{"job_name":"' + env.JOB_NAME + '","build_number":' + env.BUILD_NUMBER + ',"status":"SUCCESS","branch":"' + (env.BRANCH_NAME ?: 'main') + '"}'
-                sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d \"${payload}\" || true"
+                writeFile file: '_webhook_payload.json', text: payload
+                sh 'curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H "Content-Type: application/json" -d @_webhook_payload.json || true'
             }
         }
         failure {
             script {
                 def payload = '{"job_name":"' + env.JOB_NAME + '","build_number":' + env.BUILD_NUMBER + ',"status":"FAILURE","branch":"' + (env.BRANCH_NAME ?: 'main') + '"}'
-                sh "curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H 'Content-Type: application/json' -d \"${payload}\" || true"
+                writeFile file: '_webhook_payload.json', text: payload
+                sh 'curl -s -X POST ${DEERFLOW_WEBHOOK_URL}/webhooks/jenkins -H "Content-Type: application/json" -d @_webhook_payload.json || true'
             }
         }
     }
