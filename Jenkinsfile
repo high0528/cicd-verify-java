@@ -69,7 +69,7 @@ pipeline {
                             returnStdout: true
                         ).trim()
 
-                        def deployLog = currentBuild.rawBuild.getLog(300).join('\n').take(3000)
+                        def deployLog = currentBuild.rawBuild.getLog(300).join(' ').take(3000)
 
                         import groovy.json.JsonOutput
                         def payload = JsonOutput.toJson([
