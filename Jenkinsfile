@@ -71,8 +71,7 @@ pipeline {
 
                         def deployLog = currentBuild.rawBuild.getLog(300).join(' ').take(3000)
 
-                        import groovy.json.JsonOutput
-                        def payload = JsonOutput.toJson([
+                        def payload = groovy.json.JsonOutput.toJson([
                             job_name    : env.JOB_NAME,
                             build_number: env.BUILD_NUMBER.toInteger(),
                             status      : currentBuild.currentResult,
