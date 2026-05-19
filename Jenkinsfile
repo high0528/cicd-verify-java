@@ -94,8 +94,7 @@ pipeline {
     post {
         always {
             script {
-                import groovy.json.JsonOutput
-                def payload = JsonOutput.toJson([
+                def payload = groovy.json.JsonOutput.toJson([
                     job_name    : env.JOB_NAME,
                     build_number: env.BUILD_NUMBER.toInteger(),
                     status      : currentBuild.currentResult,
